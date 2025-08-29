@@ -1,18 +1,26 @@
-#these are the tags corresponding to the buttons needed
-#to be pressed on each website to check out
-#They are used to tell selenium what to click
-#This assumes you are signed in to respective website
+#These settings are additional requirements some sites may require
+#for their checkout process like cvv Number for newegg checkout
+#Monitor refers to whether or not you want the bots to continue checking endlessly
+#prime refers to whether or not you have amazon prime
+additional_settings = {
+    "monitor": '',
+    "cvvNum": '',
+    "prime": ''
+}
 
+#these are the tags corresponding to the buttons needed
+#to be pressed on each website to buy an item
 newegg_xPaths = {
     "addToCart" : '//*[@id="ProductBuy"]/div[1]/div[2]/button',
     "noWarranty": '//*[@id="modal-intermediary"]/div/div/div/div[3]/button[1]',
     "proceedCheckout": '//*[@id="modal-intermediary"]/div/div/div[2]/div[1]/div[3]/button[2]',
     "cvv" : '//*[@id="app"]/div/section/div/div/div/div[1]/div/div[3]/div/div[2]/div[1]/div/label/div/div[4]/input',
-    "placeOrder": '//*[@id="Summary_Side"]/div[1]/div[1]/button'
+    "placeOrder": '//*[@id="Summary_Side"]/div[1]/div[1]/button',
+    "cvvNum": ""
 }
 
 amazon_xPaths = {
-    "addtoCart" : '//*[@id="add-to-cart-button"]',
+    "addToCart" : '//*[@id="add-to-cart-button"]',
     "noWarranty": '//*[@id="attachSiNoCoverage"]/span/input',
     "goToCart" : '//*[@id="ace-gtc"]/span/a',
     "proceedCheckout": '//*[@id="sc-buy-box-ptc-button"]/span/input',
