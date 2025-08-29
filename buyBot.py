@@ -1,6 +1,7 @@
 #This file executes the corresponding buy bot given
 # a user providede list of product links in productLinks.txt
 
+import asyncio
 from stores import (
     amazon,
     bestbuy,
@@ -27,7 +28,7 @@ def identify_store(url):
 
 #executes the corresponding store bot to see if it exists in order to check out
 #else the bot will monitor and respond when the item is available
-def dispatch_bot(store, url):
+async def dispatch_bot(store, url):
     if store == "bestbuy":
         bestbuy.buy(url)
     elif store == "amazon":
@@ -43,15 +44,21 @@ def dispatch_bot(store, url):
 
 #Retrieves the desired product links and removes any unnecesary whitespace
 # and /n so that a link is interpreted correctly
-    def main():
+    async def startBots():
         linkFile = "productLinks.txt"
         with open(linkFile) as linkReader:
             productLinks = [link.strip() for link in linkReader]
             linkReader.close()
-
+        tasks = []
         for url in productLinks:
             store = identify_store(url)
-            dispatch_bot(store,url)
+            if store is not None:
+                tasks.append(dispatch_bot(store, url))
+
+        if tasks:
+            await asyncio.gather(*tasks)
+        else:
+            print("No valid links found to process")
 
     if __name__ == "__main__":
-        main()
+        startBots()
