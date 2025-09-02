@@ -29,36 +29,37 @@ def identify_store(url):
 #executes the corresponding store bot to see if it exists in order to check out
 #else the bot will monitor and respond when the item is available
 async def dispatch_bot(store, url):
+    print("In dispatch_bot")
     if store == "bestbuy":
-        bestbuy.buy(url)
+        await bestbuy.buy(url)
     elif store == "amazon":
-        amazon.buy(url)
+        await amazon.buy(url)
     elif store == "newegg":
-        newegg.buy(url)
+        await newegg.buy(url)
     elif store == "microcenter":
-        microcenter.buy(url)
+        await microcenter.buy(url)
     elif store == "gamestop":
-        gamestop.buy(url)
+        await gamestop.buy(url)
     else:
         print(f"Unknown store for URL: {url}")
 
 #Retrieves the desired product links and removes any unnecesary whitespace
 # and /n so that a link is interpreted correctly
-    async def startBots():
-        linkFile = "productLinks.txt"
-        with open(linkFile) as linkReader:
-            productLinks = [link.strip() for link in linkReader]
-            linkReader.close()
-        tasks = []
-        for url in productLinks:
-            store = identify_store(url)
-            if store is not None:
-                tasks.append(dispatch_bot(store, url))
+async def startBots():
+    linkFile = "productLinks.txt"
+    with open(linkFile) as linkReader:
+        productLinks = [link.strip() for link in linkReader]
+        linkReader.close()
+    tasks = []
+    for url in productLinks:
+        store = identify_store(url)
+        if store is not None:
+            tasks.append(dispatch_bot(store, url))
 
-        if tasks:
-            await asyncio.gather(*tasks)
-        else:
-            print("No valid links found to process")
+    if tasks:
+        await asyncio.gather(*tasks)
+    else:
+        print("No valid links found to process")
 
-    if __name__ == "__main__":
-        startBots()
+if __name__ == "__main__":
+    asyncio.run(startBots())
